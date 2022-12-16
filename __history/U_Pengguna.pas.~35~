@@ -1,0 +1,221 @@
+unit U_Pengguna;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids,
+  Vcl.StdCtrls, Vcl.ComCtrls;
+
+type
+  TF_Pengguna = class(TForm)
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    edt_usr: TEdit;
+    edt_psw: TEdit;
+    cmb_level: TComboBox;
+    btn_simpan: TButton;
+    btn_ubah: TButton;
+    btn_hapus: TButton;
+    btn_reset: TButton;
+    btn_kembali: TButton;
+    dbg1: TDBGrid;
+    crud: TFDQuery;
+    qw: TFDQuery;
+    ds: TDataSource;
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btn_simpanClick(Sender: TObject);
+    procedure btn_ubahClick(Sender: TObject);
+    procedure btn_hapusClick(Sender: TObject);
+    procedure btn_resetClick(Sender: TObject);
+    procedure btn_kembaliClick(Sender: TObject);
+    procedure dbg1CellClick(Column: TColumn);
+  private
+    { Private declarations }
+    procedure tampil_data;
+    procedure resetForm;
+    procedure kondisi_ubah;
+    procedure kondisi_simpan;
+  public
+    { Public declarations }
+  end;
+
+var
+  F_Pengguna: TF_Pengguna;
+
+implementation
+
+uses
+U_MenuUtama;
+
+{$R *.dfm}
+
+procedure TF_Pengguna.btn_hapusClick(Sender: TObject);
+begin
+  if Length(edt_usr.Text) = 0 then
+  begin
+    MessageBox(Application.handle,
+    'Nama Pengguna Tidak Boleh Kosong !',
+    'Error', MB_ICONERROR);
+    edt_usr.SetFocus;
+  end
+  else
+  begin
+    with crud do begin
+      Close;
+      SQL.Clear;
+      SQL.Add('DELETE FROM tb_pengguna ');
+      SQL.Add('WHERE nm_pengguna='+QuotedStr(edt_usr.Text));
+      ExecSQL;
+      Close;
+    end;
+    tampil_data;
+    resetForm;
+    edt_usr.SetFocus;
+  end;
+end;
+
+procedure TF_Pengguna.btn_kembaliClick(Sender: TObject);
+begin
+  Self.Close;
+end;
+
+procedure TF_Pengguna.btn_resetClick(Sender: TObject);
+begin
+  resetForm;
+  tampil_data;
+  edt_usr.SetFocus;
+end;
+
+procedure TF_Pengguna.btn_simpanClick(Sender: TObject);
+begin
+  if Length(edt_usr.Text) = 0 then
+  begin
+    MessageBox(Application.handle,
+    'Nama Pengguna Tidak Boleh Kosong !',
+    'Error', MB_ICONERROR);
+    edt_usr.SetFocus;
+  end
+  else if Length(edt_psw.Text) = 0 then
+  begin
+    MessageBox(Application.handle,
+    'Password Tidak Boleh Kosong !',
+    'Error', MB_ICONERROR);
+    edt_psw.SetFocus;
+  end
+  else
+  begin
+    with crud do begin
+      Close;
+      SQL.Clear;
+      SQL.Add('INSERT INTO ');
+      SQL.Add('tb_pengguna(nm_pengguna,psw_pengguna,level_user) ');
+      SQL.Add('VALUES('+QuotedStr(edt_usr.Text)+',');
+      SQL.Add(QuotedStr(edt_psw.Text)+',');
+      SQL.Add(QuotedStr(cmb_level.Text)+');');
+      ExecSQL;
+      Close;
+    end;
+    tampil_data;
+    resetForm;
+    edt_usr.SetFocus;
+  end;
+end;
+
+procedure TF_Pengguna.btn_ubahClick(Sender: TObject);
+begin
+  if Length(edt_usr.Text) = 0 then
+  begin
+    MessageBox(Application.handle,
+    'Nama Pengguna Tidak Boleh Kosong !',
+    'Error', MB_ICONERROR);
+    edt_usr.SetFocus;
+  end
+  else if Length(edt_psw.Text) = 0 then
+  begin
+    MessageBox(Application.handle,
+    'Password Tidak Boleh Kosong !',
+    'Error', MB_ICONERROR);
+    edt_psw.SetFocus;
+  end
+  else
+  begin
+    with crud do begin
+      Close;
+      SQL.Clear;
+      SQL.Add('UPDATE tb_pengguna SET ');
+      SQL.Add('psw_pengguna='+QuotedStr(edt_psw.Text)+',');
+      SQL.Add('level_user='+QuotedStr(cmb_level.Text)+' ');
+      SQL.Add('WHERE nm_pengguna='+QuotedStr(edt_usr.Text));
+      ExecSQL;
+      Close;
+    end;
+    tampil_data;
+    resetForm;
+    edt_usr.SetFocus;
+  end;
+end;
+
+procedure TF_Pengguna.dbg1CellClick(Column: TColumn);
+begin
+  with qw do begin
+    edt_usr.Text:=FieldByName('nm_pengguna').AsString;
+    edt_psw.Text:=FieldByName('psw_pengguna').AsString;
+    cmb_level.Text:=FieldByName('level_user').AsString;
+  end;
+end;
+
+procedure TF_Pengguna.FormClose(Sender: TObject;
+var Action: TCloseAction);
+begin
+  crud.Close;
+  qw.Active:=False;
+end;
+
+procedure TF_Pengguna.FormShow(Sender: TObject);
+begin
+  tampil_data;
+  kondisi_simpan;
+  edt_usr.SetFocus;
+end;
+
+procedure TF_Pengguna.tampil_data;
+begin
+  with qw do begin
+    Active:=False;
+    SQL.Clear;
+    SQL.Add('SELECT * ');
+    SQL.Add('FROM tb_pengguna ');
+    SQL.Add('ORDER BY nm_pengguna ASC;');
+    Active:=True;
+  end;
+end;
+
+procedure TF_Pengguna.resetForm;
+begin
+  edt_usr.Clear;
+  edt_psw.Clear;
+  cmb_level.Text:='';
+  kondisi_simpan;
+end;
+
+procedure TF_Pengguna.kondisi_ubah;
+begin
+  btn_simpan.Enabled:=False;
+  btn_ubah.Enabled:=True;
+  btn_hapus.Enabled:=True;
+end;
+
+procedure TF_Pengguna.kondisi_simpan;
+begin
+  btn_simpan.Enabled:=True;
+  btn_ubah.Enabled:=False;
+  btn_hapus.Enabled:=False;
+end;
+
+end.

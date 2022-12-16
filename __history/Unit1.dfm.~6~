@@ -1,0 +1,42 @@
+object mnUtama: TmnUtama
+  Left = 0
+  Top = 0
+  Caption = 'Aplikasi Biodata'
+  ClientHeight = 201
+  ClientWidth = 447
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  Menu = MainMenu1
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'Database=coba'
+      'User_Name=root'
+      'DriverID=MySQL')
+    LoginPrompt = False
+    Left = 376
+    Top = 136
+  end
+  object MainMenu1: TMainMenu
+    Left = 272
+    Top = 136
+    object mnFIle: TMenuItem
+      Caption = 'File'
+      object mnKeluar: TMenuItem
+        Caption = 'Keluar'
+      end
+    end
+    object mnMaster: TMenuItem
+      Caption = 'Master'
+      object mnBioData: TMenuItem
+        Caption = 'Bio Data'
+      end
+    end
+  end
+end

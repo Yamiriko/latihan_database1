@@ -1,0 +1,160 @@
+{
+Developt By Jean Riko Kurniawan Putra, S.Kom, M.Kom
+Grup Diskusi Delphi Pekanbaru : https://t.me/delphipekanbaru
+}
+
+unit ULogin;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls;
+
+type
+  TF_Login = class(TForm)
+    crud: TFDQuery;
+    Label1: TLabel;
+    Label2: TLabel;
+    edt_user: TEdit;
+    edt_psw: TEdit;
+    btn_login: TButton;
+    btn_batal: TButton;
+    kue_login: TFDQuery;
+    procedure FormShow(Sender: TObject);
+    procedure btn_batalClick(Sender: TObject);
+    procedure btn_loginClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure edt_pswKeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+    procedure terakhir_login;
+  public
+    { Public declarations }
+  end;
+
+var
+  F_Login: TF_Login;
+
+implementation
+
+uses
+U_MenuUtama;
+
+{$R *.dfm}
+
+procedure TF_Login.terakhir_login;
+begin
+  with crud do begin
+    Close;
+    SQL.Clear;
+    SQL.Add('UPDATE tb_pengguna SET ');
+    SQL.Add('terakhir_login=' +
+    QuotedStr(FormatDateTime('yyyy-mm-dd hh:nn:ss',Now))
+    + ' ');
+    SQL.Add('WHERE nm_pengguna=' +
+    QuotedStr(edt_user.Text));
+    ExecSQL;
+    Close;
+  end;
+
+  mnUtama.update_histori_pengguna('Pengguna ini barusan login');
+end;
+
+procedure TF_Login.btn_batalClick(Sender: TObject);
+begin
+  Self.Close;
+end;
+
+procedure TF_Login.btn_loginClick(Sender: TObject);
+begin
+  if Length(edt_user.Text) = 0 then begin
+    MessageBox(Application.handle,
+    'Usernya masih kosong',
+    'Gagal', MB_ICONERROR);
+    edt_user.SetFocus;
+  end
+  else if Length(edt_psw.Text) = 0 then begin
+    MessageBox(Application.handle,
+    'Passwordnya masih kosong',
+    'Gagal', MB_ICONERROR);
+    edt_psw.SetFocus;
+  end
+  else begin
+    with kue_login do begin
+      Active:=False;
+      SQL.Clear;
+
+      //Jalankan query select dari tb_pengguna
+      SQL.Add('SELECT * ');
+      SQL.Add('FROM tb_pengguna ');
+      SQL.Add('WHERE nm_pengguna = ' +
+      QuotedStr(edt_user.Text) + ' ');
+      SQL.Add('AND psw_pengguna = ' +
+      QuotedStr(edt_psw.Text));
+      Active:=True;
+
+      //Untuk ngecek datanya ada atau tidaknya
+      //dari queri diatas
+      if RecordCount = 1 then begin
+        terakhir_login;
+
+        //Untuk cek level usernya dan buka menunya
+        if FieldByName('level_user').AsString = 'Admin' then
+        begin
+          mnUtama.level_admin;
+        end
+        else if FieldByName('level_user').AsString = 'Operator' then
+        begin
+          mnUtama.level_operator;
+        end;
+
+        //Ubah Login menjadi logout
+        mnUtama.mn_login.Caption:='Logout';
+        U_MenuUtama.status_login:=True;
+
+        MessageBox(Application.handle,
+        'Login Berhasil.',
+        'Berhasil', MB_ICONINFORMATION);
+        Self.Close;
+      end
+      else begin
+        //Jika gagal kembalikan seperti logout
+        mnUtama.kunci_menu;
+        mnUtama.mn_login.Caption:='Login';
+        U_MenuUtama.status_login:=False;
+
+        MessageBox(Application.handle,
+        'Login Gagal.',
+        'Gagal', MB_ICONWARNING);
+      end;
+
+      Active:=False;
+    end;
+  end;
+end;
+
+procedure TF_Login.edt_pswKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    btn_loginClick(Self);
+  end;
+end;
+
+procedure TF_Login.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  kue_login.Active:=False;
+end;
+
+procedure TF_Login.FormShow(Sender: TObject);
+begin
+  edt_user.Clear;
+  edt_psw.Clear;
+  edt_user.SetFocus;
+end;
+
+end.

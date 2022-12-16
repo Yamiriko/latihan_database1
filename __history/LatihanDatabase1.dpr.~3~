@@ -1,0 +1,16 @@
+program LatihanDatabase1;
+
+uses
+  Vcl.Forms,
+  Unit1 in 'Unit1.pas' {mnUtama},
+  U_Biodata in 'U_Biodata.pas' {F_Biodata};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TmnUtama, mnUtama);
+  Application.CreateForm(TF_Biodata, F_Biodata);
+  Application.Run;
+end.

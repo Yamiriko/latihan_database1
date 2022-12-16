@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021/03/31 08.00.00.000.945,=C:\Users\User\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/03/07 19.00.00.000.891,=C:\Users\User\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/03/26 17.00.00.000.099,=C:\Users\User\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/05/22 21.00.00.000.366,=C:\Users\User\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/08/24 23.00.00.000.283,=C:\Users\User\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/09/22 16.00.00.000.738,=C:\Users\User\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/10/29 13.00.00.000.437,D:\DATA\Riko\Dosen\Bahasa Pemrograman 1\latihan\latihan_database1\Unit1.pas=C:\Users\User\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/10/29 13.00.00.000.437,D:\DATA\Riko\Dosen\Bahasa Pemrograman 1\latihan\latihan_database1\Unit1.dfm=C:\Users\User\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2022/10/29 13.00.00.000.368,D:\DATA\Riko\Dosen\Bahasa Pemrograman 1\latihan\latihan_database1\LatihanDatabase1.dproj=C:\Users\User\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2022/10/29 13.00.00.000.602,=C:\Users\User\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/11/16 13.00.00.000.684,D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\Unit1.dfm=D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\U_MenuUtama.dfm</Transaction>
+    <Transaction>2022/11/16 13.00.00.000.684,D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\Unit1.pas=D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\U_MenuUtama.pas</Transaction>
+    <Transaction>2022/11/16 13.00.00.000.035,D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\Unit2.dfm=D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\U_Biodata.dfm</Transaction>
+    <Transaction>2022/11/16 13.00.00.000.035,D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\Unit2.pas=D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\U_Biodata.pas</Transaction>
+    <Transaction>2022/11/16 13.00.00.000.828,=D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\Unit2.pas</Transaction>
+    <Transaction>2022/12/12 19.00.00.000.738,D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\Unit1.dfm=D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\ULogin.dfm</Transaction>
+    <Transaction>2022/12/12 19.00.00.000.699,=D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\Unit1.pas</Transaction>
+    <Transaction>2022/12/12 19.00.00.000.738,D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\Unit1.pas=D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\ULogin.pas</Transaction>
+    <Transaction>2022/12/16 06.00.00.000.986,D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\Unit1.dfm=D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\U_Pengguna.dfm</Transaction>
+    <Transaction>2022/12/16 06.00.00.000.358,=D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\Unit1.pas</Transaction>
+    <Transaction>2022/12/16 06.00.00.000.986,D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\Unit1.pas=D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\U_Pengguna.pas</Transaction>
+    <Transaction>2022/12/16 11.35.46.271,=D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\Unit1.pas</Transaction>
+    <Transaction>2022/12/16 11.36.24.569,D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\U_Histori_Pengguna.pas=D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\Unit1.pas</Transaction>
+    <Transaction>2022/12/16 11.36.24.569,D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\U_Histori_Pengguna.dfm=D:\DATA\Riko\Dosen\Pemrograman Visual 1\Latihan\latihan_database1\Unit1.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

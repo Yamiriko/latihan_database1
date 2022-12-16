@@ -1,0 +1,24 @@
+unit U_Histori_Pengguna;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs;
+
+type
+  Tf_histori_pengguna = class(TForm)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  f_histori_pengguna: Tf_histori_pengguna;
+
+implementation
+
+{$R *.dfm}
+
+end.
