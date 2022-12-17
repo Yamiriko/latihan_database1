@@ -1,5 +1,5 @@
 # latihan_database1
- Delphi MySQL/MariaDB Menggunakan FireDAC By Yamiriko
+ Delphi MySQL/MariaDB Menggunakan FireDAC By Yamiriko<br>
  Sebelum menjalankan projek delphi ini silahkan simak penjelasan singkat dibawah ini :
  1. Gunakan Delphi 10.3 Keatas
  2. Komponen Utama yang digunakan adalah FireDAC
