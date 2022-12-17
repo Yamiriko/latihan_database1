@@ -1,3 +1,8 @@
+{
+Developt By Jean Riko Kurniawan Putra, S.Kom, M.Kom
+Grup Diskusi Delphi Pekanbaru : https://t.me/delphipekanbaru
+}
+
 unit U_Suspend;
 
 interface

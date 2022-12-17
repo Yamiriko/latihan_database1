@@ -74,6 +74,7 @@ object mnUtama: TmnUtama
       Caption = 'Bantuan'
       object mnTentang: TMenuItem
         Caption = 'Tentang'
+        OnClick = mnTentangClick
       end
     end
   end

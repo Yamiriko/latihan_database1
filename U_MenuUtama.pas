@@ -43,6 +43,7 @@ type
     procedure mn_data_penggunaClick(Sender: TObject);
     procedure mn_histori_penggunaClick(Sender: TObject);
     procedure mn_suspend_penggunaClick(Sender: TObject);
+    procedure mnTentangClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -63,7 +64,8 @@ implementation
 
 uses
 U_Biodata,ULogin,U_Pengguna,
-U_Histori_Pengguna,U_Suspend;
+U_Histori_Pengguna,U_Suspend,
+U_Tentang;
 
 {$R *.dfm}
 
@@ -187,6 +189,11 @@ end;
 procedure TmnUtama.mnKeluarClick(Sender: TObject);
 begin
   Application.Terminate;
+end;
+
+procedure TmnUtama.mnTentangClick(Sender: TObject);
+begin
+  F_Tentang.ShowModal;
 end;
 
 procedure TmnUtama.mn_loginClick(Sender: TObject);
