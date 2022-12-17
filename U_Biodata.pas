@@ -34,6 +34,9 @@ type
     crud: TFDQuery;
     qw: TFDQuery;
     ds: TDataSource;
+    Label5: TLabel;
+    edt_cari: TEdit;
+    btn_cari: TButton;
     procedure btn_resetClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btn_simpanClick(Sender: TObject);
@@ -42,6 +45,8 @@ type
     procedure btn_ubahClick(Sender: TObject);
     procedure btn_hapusClick(Sender: TObject);
     procedure dbg1CellClick(Column: TColumn);
+    procedure btn_cariClick(Sender: TObject);
+    procedure edt_cariKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     procedure resetForm;
@@ -61,6 +66,28 @@ uses
 U_MenuUtama;
 
 {$R *.dfm}
+
+procedure TF_Biodata.btn_cariClick(Sender: TObject);
+begin
+  if Length(edt_cari.Text) <> 0 then
+  begin
+    with qw do begin
+      Active:=False;
+      SQL.Clear;
+      SQL.Add('SELECT * ');
+      SQL.Add('FROM tb_coba ');
+      SQL.Add('WHERE kode LIKE ' +
+      QuotedStr('%' + edt_cari.Text + '%') + ' ');
+      SQL.Add('OR nama LIKE ' +
+      QuotedStr('%' + edt_cari.Text + '%'));
+      Active:=True;
+    end;
+  end
+  else begin
+    Beep;
+    edt_cari.SetFocus;
+  end;
+end;
 
 procedure TF_Biodata.btn_hapusClick(Sender: TObject);
 begin
@@ -188,6 +215,11 @@ begin
   kondisi_ubah;
 end;
 
+procedure TF_Biodata.edt_cariKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Length(edt_cari.Text) <= 1 then tampil_data;
+end;
+
 procedure TF_Biodata.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   qw.Active:=False;
@@ -206,6 +238,7 @@ procedure TF_Biodata.resetForm;
 begin
   Edit1.Clear;
   Edit2.Clear;
+  edt_cari.Clear;
   cmb_jk.Text:='';
   dtp1.Date:=Date;
   kondisi_simpan;

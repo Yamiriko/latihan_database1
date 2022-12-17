@@ -67,6 +67,7 @@ object mnUtama: TmnUtama
       end
       object mn_suspend_pengguna: TMenuItem
         Caption = 'Suspend'
+        OnClick = mn_suspend_penggunaClick
       end
     end
     object mnBantuan: TMenuItem

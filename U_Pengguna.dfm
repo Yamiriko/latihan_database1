@@ -41,6 +41,13 @@ object F_Pengguna: TF_Pengguna
     Height = 13
     Caption = 'Level Pengguna'
   end
+  object Label5: TLabel
+    Left = 16
+    Top = 158
+    Width = 45
+    Height = 13
+    Caption = 'Cari Data'
+  end
   object edt_usr: TEdit
     Left = 96
     Top = 13
@@ -64,6 +71,7 @@ object F_Pengguna: TF_Pengguna
     Height = 21
     ItemIndex = 0
     TabOrder = 2
+    Text = 'Admin'
     Items.Strings = (
       'Admin'
       'Operator')
@@ -119,9 +127,9 @@ object F_Pengguna: TF_Pengguna
   end
   object dbg1: TDBGrid
     Left = 17
-    Top = 152
+    Top = 184
     Width = 524
-    Height = 161
+    Height = 129
     Anchors = [akLeft, akTop, akRight, akBottom]
     DataSource = ds
     TabOrder = 8
@@ -131,6 +139,24 @@ object F_Pengguna: TF_Pengguna
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
     OnCellClick = dbg1CellClick
+  end
+  object edt_cari: TEdit
+    Left = 70
+    Top = 151
+    Width = 147
+    Height = 27
+    AutoSize = False
+    TabOrder = 9
+    OnKeyPress = edt_cariKeyPress
+  end
+  object btn_cari: TButton
+    Left = 223
+    Top = 151
+    Width = 75
+    Height = 27
+    Caption = 'Cari'
+    TabOrder = 10
+    OnClick = btn_cariClick
   end
   object crud: TFDQuery
     Connection = mnUtama.cn

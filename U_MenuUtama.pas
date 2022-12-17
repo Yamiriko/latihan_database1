@@ -42,6 +42,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure mn_data_penggunaClick(Sender: TObject);
     procedure mn_histori_penggunaClick(Sender: TObject);
+    procedure mn_suspend_penggunaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -61,7 +62,8 @@ var
 implementation
 
 uses
-U_Biodata,ULogin,U_Pengguna,U_Histori_Pengguna;
+U_Biodata,ULogin,U_Pengguna,
+U_Histori_Pengguna,U_Suspend;
 
 {$R *.dfm}
 
@@ -198,6 +200,11 @@ begin
     status_login:=False;
     pengguna_login:='';
   end;
+end;
+
+procedure TmnUtama.mn_suspend_penggunaClick(Sender: TObject);
+begin
+  F_Suspend_Pengguna.ShowModal;
 end;
 
 end.

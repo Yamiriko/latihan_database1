@@ -100,27 +100,39 @@ begin
       //Untuk ngecek datanya ada atau tidaknya
       //dari queri diatas
       if RecordCount = 1 then begin
-        U_MenuUtama.pengguna_login:=FieldByName('nm_pengguna').AsString;
-        terakhir_login;
-
-        //Untuk cek level usernya dan buka menunya
-        if FieldByName('level_user').AsString = 'Admin' then
+        //Cek apakah usernya aktif atau suspend
+        if FieldByName('status_akun').AsString = 'Aktif' then
         begin
-          mnUtama.level_admin;
+          //tampung username yang login
+          U_MenuUtama.pengguna_login:=FieldByName('nm_pengguna').AsString;
+          terakhir_login;
+
+          //Untuk cek level usernya dan buka menunya
+          if FieldByName('level_user').AsString = 'Admin' then
+          begin
+            mnUtama.level_admin;
+          end
+          else if FieldByName('level_user').AsString = 'Operator' then
+          begin
+            mnUtama.level_operator;
+          end;
+
+          //Ubah Login menjadi logout
+          mnUtama.mn_login.Caption:='Logout';
+          U_MenuUtama.status_login:=True;
+
+          MessageBox(Application.handle,
+          'Login Berhasil.',
+          'Berhasil', MB_ICONINFORMATION);
+          Self.Close;
         end
-        else if FieldByName('level_user').AsString = 'Operator' then
+        else
         begin
-          mnUtama.level_operator;
+          MessageBox(Application.handle,
+          'Pengguna Suspend !',
+          'Gagal', MB_ICONWARNING);
+          Self.Close;
         end;
-
-        //Ubah Login menjadi logout
-        mnUtama.mn_login.Caption:='Logout';
-        U_MenuUtama.status_login:=True;
-
-        MessageBox(Application.handle,
-        'Login Berhasil.',
-        'Berhasil', MB_ICONINFORMATION);
-        Self.Close;
       end
       else begin
         //Jika gagal kembalikan seperti logout

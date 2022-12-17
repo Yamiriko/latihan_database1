@@ -32,6 +32,9 @@ type
     crud: TFDQuery;
     qw: TFDQuery;
     ds: TDataSource;
+    Label5: TLabel;
+    edt_cari: TEdit;
+    btn_cari: TButton;
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btn_simpanClick(Sender: TObject);
@@ -40,6 +43,8 @@ type
     procedure btn_resetClick(Sender: TObject);
     procedure btn_kembaliClick(Sender: TObject);
     procedure dbg1CellClick(Column: TColumn);
+    procedure btn_cariClick(Sender: TObject);
+    procedure edt_cariKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     procedure tampil_data;
@@ -59,6 +64,28 @@ uses
 U_MenuUtama;
 
 {$R *.dfm}
+
+procedure TF_Pengguna.btn_cariClick(Sender: TObject);
+begin
+  if Length(edt_cari.Text) <> 0 then
+  begin
+    with qw do begin
+      Active:=False;
+      SQL.Clear;
+      SQL.Add('SELECT * ');
+      SQL.Add('FROM tb_pengguna ');
+      SQL.Add('WHERE nm_pengguna LIKE ' +
+      QuotedStr('%' + edt_cari.Text + '%') + ' ');
+      SQL.Add('OR level_user LIKE ' +
+      QuotedStr('%' + edt_cari.Text + '%'));
+      Active:=True;
+    end;
+  end
+  else begin
+    Beep;
+    edt_cari.SetFocus;
+  end;
+end;
 
 procedure TF_Pengguna.btn_hapusClick(Sender: TObject);
 begin
@@ -180,6 +207,11 @@ begin
     cmb_level.Text:=FieldByName('level_user').AsString;
   end;
   kondisi_ubah;
+end;
+
+procedure TF_Pengguna.edt_cariKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Length(edt_cari.Text) <= 1 then tampil_data;
 end;
 
 procedure TF_Pengguna.FormClose(Sender: TObject;

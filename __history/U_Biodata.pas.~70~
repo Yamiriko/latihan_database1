@@ -1,0 +1,263 @@
+{
+Developt By Jean Riko Kurniawan Putra, S.Kom, M.Kom
+Grup Diskusi Delphi Pekanbaru : https://t.me/delphipekanbaru
+}
+
+unit U_Biodata;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, Data.DB,
+  Vcl.Grids, Vcl.DBGrids, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client;
+
+type
+  TF_Biodata = class(TForm)
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    cmb_jk: TComboBox;
+    dtp1: TDateTimePicker;
+    btn_simpan: TButton;
+    btn_ubah: TButton;
+    btn_hapus: TButton;
+    btn_reset: TButton;
+    btn_kembali: TButton;
+    dbg1: TDBGrid;
+    crud: TFDQuery;
+    qw: TFDQuery;
+    ds: TDataSource;
+    Label5: TLabel;
+    edt_cari: TEdit;
+    btn_cari: TButton;
+    procedure btn_resetClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btn_simpanClick(Sender: TObject);
+    procedure btn_kembaliClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btn_ubahClick(Sender: TObject);
+    procedure btn_hapusClick(Sender: TObject);
+    procedure dbg1CellClick(Column: TColumn);
+    procedure btn_cariClick(Sender: TObject);
+    procedure edt_cariKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+  private
+    { Private declarations }
+    procedure resetForm;
+    procedure tampil_data;
+    procedure kondisi_ubah;
+    procedure kondisi_simpan;
+  public
+    { Public declarations }
+  end;
+
+var
+  F_Biodata: TF_Biodata;
+
+implementation
+
+uses
+U_MenuUtama;
+
+{$R *.dfm}
+
+procedure TF_Biodata.btn_cariClick(Sender: TObject);
+begin
+  if Length(edt_cari.Text) <> 0 then
+  begin
+    with qw do begin
+      Active:=False;
+      SQL.Clear;
+      SQL.Add('SELECT * ');
+      SQL.Add('FROM tb_coba ');
+      SQL.Add('WHERE kode LIKE ' +
+      QuotedStr('%' + edt_cari.Text + '%') + ' ');
+      SQL.Add('OR nama LIKE ' +
+      QuotedStr('%' + edt_cari.Text + '%'));
+      Active:=True;
+    end;
+  end
+  else begin
+    Beep;
+    edt_cari.SetFocus;
+  end;
+end;
+
+procedure TF_Biodata.btn_hapusClick(Sender: TObject);
+begin
+  if Length(Edit1.Text) = 0 then
+  begin
+    MessageBox(Application.handle,
+    'Kode Tidak Boleh Kosong !',
+    'Error', MB_ICONERROR);
+    Edit1.SetFocus;
+  end
+  else
+  begin
+    if MessageDlg('Hapus data ini?',
+    mtConfirmation, [mbyes,mbno], 0) = mrYes then begin
+      with crud do begin
+        Close;
+        SQL.Clear;
+        SQL.Add('DELETE FROM tb_coba ');
+        SQL.Add('WHERE kode='+QuotedStr(Edit1.Text));
+        ExecSQL;
+        Close;
+      end;
+      mnUtama.update_histori_pengguna('Barusan menghapus ' +
+      'biodata dengan kode : '+QuotedStr(Edit1.Text));
+      resetForm;
+      tampil_data;
+      Edit1.SetFocus;
+    end;
+  end;
+end;
+
+procedure TF_Biodata.btn_kembaliClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TF_Biodata.btn_resetClick(Sender: TObject);
+begin
+  resetForm;
+  tampil_data;
+  Edit1.SetFocus;
+end;
+
+procedure TF_Biodata.tampil_data;
+begin
+  with qw do begin
+    Active:=False;
+    SQL.Clear;
+    SQL.Add('SELECT * ');
+    SQL.Add('FROM tb_coba ');
+    SQL.Add('ORDER BY kode ASC');
+    Active:=True;
+  end;
+end;
+
+procedure TF_Biodata.btn_simpanClick(Sender: TObject);
+begin
+  if Length(Edit1.Text) = 0 then
+  begin
+    MessageBox(Application.handle,
+    'Kode Tidak Boleh Kosong !',
+    'Error', MB_ICONERROR);
+    Edit1.SetFocus;
+  end
+  else
+  begin
+    with crud do begin
+      Close;
+      SQL.Clear;
+      SQL.Add('INSERT INTO ');
+      SQL.Add('tb_coba(kode,nama,jenis_kelamin,tgl_lahir) ');
+      SQL.Add('VALUES('+QuotedStr(Edit1.Text)+',');
+      SQL.Add(QuotedStr(Edit2.Text)+',');
+      SQL.Add(QuotedStr(cmb_jk.Text)+',');
+      SQL.Add(QuotedStr(FormatDateTime('YYYY-MM-DD',dtp1.Date))+')');
+      ExecSQL;
+      Close;
+    end;
+    mnUtama.update_histori_pengguna('Barusan menyimpan ' +
+    'biodata dengan kode : '+QuotedStr(Edit1.Text));
+    resetForm;
+    tampil_data;
+    Edit1.SetFocus;
+  end;
+end;
+
+procedure TF_Biodata.btn_ubahClick(Sender: TObject);
+begin
+  if Length(Edit1.Text) = 0 then
+  begin
+    MessageBox(Application.handle,
+    'Kode Tidak Boleh Kosong !',
+    'Error', MB_ICONERROR);
+    Edit1.SetFocus;
+  end
+  else
+  begin
+    with crud do begin
+      Close;
+      SQL.Clear;
+      SQL.Add('UPDATE tb_coba SET ');
+      SQL.Add('nama='+QuotedStr(Edit2.Text)+',');
+      SQL.Add('jenis_kelamin='+QuotedStr(cmb_jk.Text)+',');
+      SQL.Add('tgl_lahir='+QuotedStr(FormatDateTime('YYYY-MM-DD',dtp1.Date))+' ');
+      SQL.Add('WHERE kode='+QuotedStr(Edit1.Text));
+      ExecSQL;
+      Close;
+    end;
+    mnUtama.update_histori_pengguna('Barusan mengubah ' +
+    'biodata dengan kode : '+QuotedStr(Edit1.Text));
+    resetForm;
+    tampil_data;
+    Edit1.SetFocus;
+  end;
+end;
+
+procedure TF_Biodata.dbg1CellClick(Column: TColumn);
+begin
+  with qw do begin
+    Edit1.Text:=FieldByName('kode').AsString;
+    Edit2.Text:=FieldByName('nama').AsString;
+    cmb_jk.Text:=FieldByName('jenis_kelamin').AsString;
+    dtp1.Date:=FieldByName('tgl_lahir').AsDateTime;
+  end;
+  kondisi_ubah;
+end;
+
+procedure TF_Biodata.edt_cariKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Length(edt_cari.Text) <= 1 then tampil_data;
+end;
+
+procedure TF_Biodata.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  qw.Active:=False;
+  crud.Close;
+end;
+
+procedure TF_Biodata.FormShow(Sender: TObject);
+begin
+  resetForm;
+  tampil_data;
+  kondisi_simpan;
+  Edit1.SetFocus;
+end;
+
+procedure TF_Biodata.resetForm;
+begin
+  Edit1.Clear;
+  Edit2.Clear;
+  edt_cari.Clear;
+  cmb_jk.Text:='';
+  dtp1.Date:=Date;
+  kondisi_simpan;
+end;
+
+procedure TF_Biodata.kondisi_ubah;
+begin
+  btn_simpan.Enabled:=False;
+  btn_ubah.Enabled:=True;
+  btn_hapus.Enabled:=True;
+end;
+
+procedure TF_Biodata.kondisi_simpan;
+begin
+  btn_simpan.Enabled:=True;
+  btn_ubah.Enabled:=False;
+  btn_hapus.Enabled:=False;
+end;
+
+end.
