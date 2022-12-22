@@ -4,7 +4,7 @@
  1. Gunakan Delphi 10.3 Keatas
  2. Komponen Utama yang digunakan adalah FireDAC
  3. Silahkan Copy Paste file <i><b>libmariadb.dll</b></i> ke <i><b>C:\Windows\System32</b></i> dan <i><b>C:\Windows\SysWOW64</b></i> SysWOW64 ini ditujukan untuk windows 64 bit.
- 4. Import database coba.sql (Video Tutorialnya menyusul untuk import dan export Database MySQL/MariaDB)
+ 4. Import database coba.sql tutorialnya bisa dilihat pada Youtube saya di : https://youtu.be/80W64j_d3NI
  5. Buka projeknya melalui file yang bernama <i><b>LatihanDatabase1.dproj</b></i>
  6. Run program
  7. Selamat belajar dengan codingan yang saya buat dan silahkan dikembangkan sendiri serta semoga bermanfaat.
