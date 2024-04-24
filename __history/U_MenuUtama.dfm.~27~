@@ -16,7 +16,6 @@ object mnUtama: TmnUtama
   WindowState = wsMaximized
   OnClose = FormClose
   OnCreate = FormCreate
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object cn: TFDConnection
@@ -63,16 +62,24 @@ object mnUtama: TmnUtama
       end
       object mn_histori_pengguna: TMenuItem
         Caption = 'Histori'
+        OnClick = mn_histori_penggunaClick
       end
       object mn_suspend_pengguna: TMenuItem
         Caption = 'Suspend'
+        OnClick = mn_suspend_penggunaClick
       end
     end
     object mnBantuan: TMenuItem
       Caption = 'Bantuan'
       object mnTentang: TMenuItem
         Caption = 'Tentang'
+        OnClick = mnTentangClick
       end
     end
+  end
+  object crud_histori: TFDQuery
+    Connection = cn
+    Left = 376
+    Top = 88
   end
 end

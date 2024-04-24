@@ -39,7 +39,6 @@ type
     procedure mn_bio_dataClick(Sender: TObject);
     procedure mnKeluarClick(Sender: TObject);
     procedure mn_loginClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure mn_data_penggunaClick(Sender: TObject);
     procedure mn_histori_penggunaClick(Sender: TObject);
     procedure mn_suspend_penggunaClick(Sender: TObject);
@@ -164,10 +163,6 @@ end;
 procedure TmnUtama.FormCreate(Sender: TObject);
 begin
   cn.Connected:=True;
-end;
-
-procedure TmnUtama.FormShow(Sender: TObject);
-begin
   kunci_menu;
 end;
 

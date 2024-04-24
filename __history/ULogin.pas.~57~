@@ -1,3 +1,8 @@
+{
+Developt By Jean Riko Kurniawan Putra, S.Kom, M.Kom
+Grup Diskusi Delphi Pekanbaru : https://t.me/delphipekanbaru
+}
+
 unit ULogin;
 
 interface
@@ -54,16 +59,9 @@ begin
     QuotedStr(edt_user.Text));
     ExecSQL;
     Close;
-
-    SQL.Clear;
-    SQL.Add('INSERT INTO tb_pengguna_histori');
-    SQL.Add('(nm_pengguna,keterangan,tgl_wkt) ');
-    SQL.Add('VALUES('+QuotedStr(edt_user.Text)+',');
-    SQL.Add(QuotedStr('User Ini Login.')+',');
-    SQL.Add('NOW()');
-    ExecSQL;
-    Close;
   end;
+
+  mnUtama.update_histori_pengguna('Pengguna ini barusan login');
 end;
 
 procedure TF_Login.btn_batalClick(Sender: TObject);
@@ -102,32 +100,46 @@ begin
       //Untuk ngecek datanya ada atau tidaknya
       //dari queri diatas
       if RecordCount = 1 then begin
-        terakhir_login;
-
-        //Untuk cek level usernya dan buka menunya
-        if FieldByName('level_user').AsString = 'Admin' then
+        //Cek apakah usernya aktif atau suspend
+        if FieldByName('status_akun').AsString = 'Aktif' then
         begin
-          mnUtama.level_admin;
+          //tampung username yang login
+          U_MenuUtama.pengguna_login:=FieldByName('nm_pengguna').AsString;
+          terakhir_login;
+
+          //Untuk cek level usernya dan buka menunya
+          if FieldByName('level_user').AsString = 'Admin' then
+          begin
+            mnUtama.level_admin;
+          end
+          else if FieldByName('level_user').AsString = 'Operator' then
+          begin
+            mnUtama.level_operator;
+          end;
+
+          //Ubah Login menjadi logout
+          mnUtama.mn_login.Caption:='Logout';
+          U_MenuUtama.status_login:=True;
+
+          MessageBox(Application.handle,
+          'Login Berhasil.',
+          'Berhasil', MB_ICONINFORMATION);
+          Self.Close;
         end
-        else if FieldByName('level_user').AsString = 'Operator' then
+        else
         begin
-          mnUtama.level_operator;
+          MessageBox(Application.handle,
+          'Pengguna Suspend !',
+          'Gagal', MB_ICONWARNING);
+          Self.Close;
         end;
-
-        //Ubah Login menjadi logout
-        mnUtama.mn_login.Caption:='Logout';
-        U_MenuUtama.status_login:=True;
-
-        MessageBox(Application.handle,
-        'Login Berhasil.',
-        'Berhasil', MB_ICONINFORMATION);
-        Self.Close;
       end
       else begin
         //Jika gagal kembalikan seperti logout
         mnUtama.kunci_menu;
         mnUtama.mn_login.Caption:='Login';
         U_MenuUtama.status_login:=False;
+        U_MenuUtama.pengguna_login:='';
 
         MessageBox(Application.handle,
         'Login Gagal.',

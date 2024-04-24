@@ -16,7 +16,6 @@ object mnUtama: TmnUtama
   WindowState = wsMaximized
   OnClose = FormClose
   OnCreate = FormCreate
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object cn: TFDConnection

@@ -39,8 +39,10 @@ type
     procedure mn_bio_dataClick(Sender: TObject);
     procedure mnKeluarClick(Sender: TObject);
     procedure mn_loginClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure mn_data_penggunaClick(Sender: TObject);
+    procedure mn_histori_penggunaClick(Sender: TObject);
+    procedure mn_suspend_penggunaClick(Sender: TObject);
+    procedure mnTentangClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -60,7 +62,9 @@ var
 implementation
 
 uses
-U_Biodata,ULogin,U_Pengguna;
+U_Biodata,ULogin,U_Pengguna,
+U_Histori_Pengguna,U_Suspend,
+U_Tentang;
 
 {$R *.dfm}
 
@@ -72,11 +76,11 @@ begin
     with crud_histori do begin
       Close;
       SQL.Clear;
-      SQL.Add('INSERT INTO ');
-      SQL.Add('tb_pengguna_histori(nm_pengguna,keterangan,tgl_wkt) ');
-      SQL.Add('VALUES('+QuotedStr(keterangan)+',');
+      SQL.Add('INSERT INTO tb_pengguna_histori');
+      SQL.Add('(nm_pengguna,keterangan,tgl_wkt) ');
+      SQL.Add('VALUES('+QuotedStr(pengguna_login)+',');
       SQL.Add(QuotedStr(keterangan)+',');
-      SQL.Add('NOW()');
+      SQL.Add('NOW())');
       ExecSQL;
       Close;
     end;
@@ -159,10 +163,6 @@ end;
 procedure TmnUtama.FormCreate(Sender: TObject);
 begin
   cn.Connected:=True;
-end;
-
-procedure TmnUtama.FormShow(Sender: TObject);
-begin
   kunci_menu;
 end;
 
@@ -176,9 +176,19 @@ begin
   F_Pengguna.ShowModal;
 end;
 
+procedure TmnUtama.mn_histori_penggunaClick(Sender: TObject);
+begin
+  f_histori_pengguna.ShowModal;
+end;
+
 procedure TmnUtama.mnKeluarClick(Sender: TObject);
 begin
   Application.Terminate;
+end;
+
+procedure TmnUtama.mnTentangClick(Sender: TObject);
+begin
+  F_Tentang.ShowModal;
 end;
 
 procedure TmnUtama.mn_loginClick(Sender: TObject);
@@ -192,6 +202,11 @@ begin
     status_login:=False;
     pengguna_login:='';
   end;
+end;
+
+procedure TmnUtama.mn_suspend_penggunaClick(Sender: TObject);
+begin
+  F_Suspend_Pengguna.ShowModal;
 end;
 
 end.
